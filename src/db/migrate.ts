@@ -7,7 +7,7 @@ export async function runMigrate() {
 
   const start = Date.now();
 
-  await migrate(db, { migrationsFolder: "drizzle" });
+  await migrate(db(), { migrationsFolder: "drizzle" });
 
   const end = Date.now();
 
