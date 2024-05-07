@@ -1,11 +1,30 @@
-import { signInSchema } from "../validations/auth";
+"use server";
+
+import { authSchema } from "@/lib/validations/auth";
+
 import { action } from "./safe-action";
 
-export const signinAction = action(
-  signInSchema,
-  async ({ email, password }) => {
-    // TODO add db validation
+export const signInAction = action(authSchema, async ({ email, password }) => {
+  // TODO add db validation
 
-    return { success: "Signed in" };
-  },
-);
+  console.log("signInAction", email, password);
+
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve({ message: "Signed in" });
+    }, 1000),
+  );
+});
+
+export const signUpAction = action(authSchema, async ({ email, password }) => {
+  // TODO add db validation
+  // insert to database
+
+  console.log("signUpAction", email, password);
+
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve({ message: "Signed up" });
+    }, 1000),
+  );
+});

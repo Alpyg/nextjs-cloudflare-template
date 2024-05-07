@@ -16,11 +16,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signInAction } from "@/lib/actions/auth";
+import { signUpAction } from "@/lib/actions/auth";
 import { authSchema } from "@/lib/validations/auth";
 
-export function SignInForm() {
-  const { execute, result, status } = useAction(signInAction);
+export function SignUpForm() {
+  const { execute, result, status } = useAction(signUpAction);
   const form = useForm<z.infer<typeof authSchema>>({
     resolver: zodResolver(authSchema),
     defaultValues: {
@@ -32,7 +32,7 @@ export function SignInForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Sign in</CardTitle>
+        <CardTitle>Sign up</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -71,7 +71,7 @@ export function SignInForm() {
               disabled={status === "executing"}
               type="submit"
             >
-              Sign In
+              Sign Up
             </Button>
           </form>
         </Form>

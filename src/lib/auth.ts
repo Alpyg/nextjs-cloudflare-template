@@ -1,24 +1,33 @@
-import { D1Adapter } from "@auth/d1-adapter";
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
+import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
+import { Lucia } from "lucia";
+import { env } from "process";
 
 import { db } from "@/db";
+import { sessions, users } from "@/db/schema";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: D1Adapter(db),
-  providers: [
-    Credentials({
-      credentials: {
-        email: {},
-        password: {},
+const adapter = () => new DrizzleSQLiteAdapter(db(), sessions, users);
+
+export const lucia = () =>
+  new Lucia(adapter(), {
+    sessionCookie: {
+      expires: false,
+      attributes: {
+        secure: env.NODE_ENV === "production",
       },
-      authorize: async (credentials, request) => {
-        let user = null;
+    },
+    getUserAttributes: (attributes) => {
+      return {
+        email: attributes.email,
+      };
+    },
+  });
 
-        // TODO add database
-
-        return user;
-      },
-    }),
-  ],
-});
+declare module "lucia" {
+  interface Register {
+    Lucia: typeof lucia;
+    UserID: number;
+    DatabaseUserAttributes: {
+      email: string;
+    };
+  }
+}
