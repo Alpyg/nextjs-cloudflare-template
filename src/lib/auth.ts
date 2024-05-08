@@ -25,7 +25,7 @@ export const lucia = () =>
 declare module "lucia" {
   interface Register {
     Lucia: typeof lucia;
-    UserID: number;
+    UserId: number;
     DatabaseUserAttributes: {
       email: string;
     };

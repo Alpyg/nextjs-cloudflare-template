@@ -1,10 +1,12 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
 import { drizzle } from "drizzle-orm/d1";
 
-import { sessions, users } from "./schema";
-
 export const db = () => {
-  console.log(getRequestContext().env.DB);
   return drizzle(getRequestContext().env.DB);
+};
+
+export const takeUniqueOrThrow = <T extends any[]>(values: T): T[number] => {
+  if (values.length !== 1)
+    throw new Error("Found non unique or inexistent value");
+  return values[0]!;
 };
