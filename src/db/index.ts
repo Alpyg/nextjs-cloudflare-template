@@ -1,9 +1,8 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import { drizzle } from "drizzle-orm/d1";
+import { cache } from "react";
 
-export const db = () => {
-  return drizzle(getRequestContext().env.DB);
-};
+export const db = drizzle(getRequestContext().env.DB);
 
 export const takeUniqueOrThrow = <T extends any[]>(values: T): T[number] => {
   if (values.length !== 1)

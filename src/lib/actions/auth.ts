@@ -13,7 +13,7 @@ import { lucia } from "../auth";
 import { action } from "./safe-action";
 
 export const signInAction = action(authSchema, async ({ email, password }) => {
-  const user = await db()
+  const user = await db
     .select({
       id: users.id,
       email: users.email,
@@ -32,8 +32,8 @@ export const signInAction = action(authSchema, async ({ email, password }) => {
     return { error: "Incorrect email or password." };
   }
 
-  const session = await lucia().createSession(user.id, {});
-  const sessionCookie = lucia().createSessionCookie(session.id);
+  const session = await lucia.createSession(user.id, {});
+  const sessionCookie = lucia.createSessionCookie(session.id);
   cookies().set(
     sessionCookie.name,
     sessionCookie.value,
@@ -43,17 +43,18 @@ export const signInAction = action(authSchema, async ({ email, password }) => {
 });
 
 export const signUpAction = action(authSchema, async ({ email, password }) => {
-  console.log(await db().select().from(users));
-  const existingUser = await db().select().from(users);
-  console.log(await db().select().from(users));
+  const existingUser = await db
+    .select({ email: users.email })
+    .from(users)
+    .where(eq(users.email, email));
 
-  if (existingUser) {
+  if (existingUser.length > 0) {
     return { error: "Email already taken." };
   }
 
   const hashedPassword = await new Scrypt().hash(password);
   const user = (
-    await db()
+    await db
       .insert(users)
       .values({
         email,
@@ -64,8 +65,8 @@ export const signUpAction = action(authSchema, async ({ email, password }) => {
 
   // TODO add email verification?
 
-  const session = await lucia().createSession(user.id, {});
-  const sessionCookie = lucia().createSessionCookie(session.id);
+  const session = await lucia.createSession(user.id, {});
+  const sessionCookie = lucia.createSessionCookie(session.id);
   cookies().set(
     sessionCookie.name,
     sessionCookie.value,
