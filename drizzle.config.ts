@@ -2,10 +2,10 @@ import type { Config } from "drizzle-kit";
 
 export default {
   schema: "./src/db/schema/*",
-  out: "./drizzle",
-  driver: "d1",
+  out: "./migrations",
+  driver: "better-sqlite",
+  dialect: "sqlite",
   dbCredentials: {
-    dbName: "template-db",
-    wranglerConfigPath: ".",
+    url: process.env.LOCAL_DB_PATH,
   },
 } satisfies Config;

@@ -15,7 +15,7 @@
     "db:generate": "drizzle-kit generate:sqlite --out=./migrations",
     "db:migrate": "bunx wrangler d1 migrations apply DB --local",
     "db:push": "bunx wrangler d1 migrations apply DB --remote",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "cross-env LOCAL_DB_PATH=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) drizzle-kit studio"
   },
   "dependencies": {
     "@auth/d1-adapter": "^1.0.0",
@@ -46,7 +46,9 @@
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.19",
-    "drizzle-kit": "^0.20.18",
+    "better-sqlite3": "^9.6.0",
+    "cross-env": "^7.0.3",
+    "drizzle-kit": "^0.21.1",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.1.0",
     "eslint-plugin-next-on-pages": "^1.11.2",
