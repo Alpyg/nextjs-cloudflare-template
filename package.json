@@ -12,9 +12,9 @@
     "deploy": "npm run pages:build && wrangler pages deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
     "shadcn:add": "bunx shadcn-ui@latest add",
-    "db:generate": "drizzle-kit generate:sqlite",
-    "db:migrate": "tsx src/db/migrate.ts",
-    "db:push": "drizzle-kit push:sqlite",
+    "db:generate": "drizzle-kit generate:sqlite --out=./migrations",
+    "db:migrate": "bunx wrangler d1 migrations apply DB --local",
+    "db:push": "bunx wrangler d1 migrations apply DB --remote",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
