@@ -10,12 +10,18 @@
     "pages:build": "bunx @cloudflare/next-on-pages",
     "preview": "bun pages:build && wrangler pages dev",
     "deploy": "bun pages:build && wrangler pages deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts"
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
+    "db:generate": "bunx drizzle-kit generate",
+    "db:migrate:dev": "wrangler d1 migrations apply nextjs-cloudflare-template --local",
+    "db:migrate:prod": "wrangler d1 migrations apply nextjs-cloudflare-template --remote",
+    "db:studio:dev": "cross-env DB_LOCAL_PATH=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) drizzle-kit studio",
+    "db:studio:prod": "drizzle-kit studio"
   },
   "dependencies": {
+    "drizzle-orm": "^0.40.0",
+    "next": "15.1.6",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.1.6"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "1",
@@ -24,12 +30,16 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "better-sqlite3": "^11.8.1",
+    "cross-env": "^7.0.3",
+    "drizzle-kit": "^0.30.5",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "eslint-plugin-next-on-pages": "^1.13.8",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.19.3",
     "typescript": "^5",
     "vercel": "^41.3.0",
     "wrangler": "^3.111.0"

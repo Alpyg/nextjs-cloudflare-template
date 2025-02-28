@@ -6,9 +6,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "nextjs-cloudflare-template",
   "compatibility_date": "2025-02-24",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "pages_build_output_dir": ".vercel/output/static",
   "observability": {
     "enabled": true,
@@ -24,6 +22,15 @@
    * databases, object storage, AI inference, real-time communication and more.
    * https://developers.cloudflare.com/workers/runtime-apis/bindings/
    */
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_id": "afb709bf-d458-4dd9-ac1e-2a6af6a5c1cb",
+      "database_name": "nextjs-cloudflare-template",
+      "preview_database_id": "DB",
+      "migrations_dir": "drizzle",
+    },
+  ],
   /**
    * Environment Variables
    * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
